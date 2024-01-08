@@ -12,8 +12,9 @@ const Container = styled.div<ColorThemeProps>`
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  width: 100%;
-  height: 3.75rem;
+  width: 100vm;
+  border-radius: 20px 20px 0px 0px;
+  height: 3.8rem;
   position: absolute;
   bottom: 0;
   background: ${({ theme }) => theme.darkAccent};
@@ -75,9 +76,9 @@ export const BottomMenu = (props: BottomMenuProps) => {
 
   return (
     <Container theme={theme}>
-      <Menu theme={theme} src={coins} onClick={() => handleSelect('bsv')} opacity={selected === 'bsv' ? 1 : 0.4} />
+      {/* <Menu theme={theme} src={coins} onClick={() => handleSelect('bsv')} opacity={selected === 'bsv' ? 1 : 0.4} /> */}
       <Menu theme={theme} src={tokens} onClick={() => handleSelect('ords')} opacity={selected === 'ords' ? 1 : 0.4} />
-      <Menu theme={theme} src={apps} onClick={() => handleSelect('apps')} opacity={selected === 'apps' ? 1 : 0.4} />
+      {/* <Menu theme={theme} src={apps} onClick={() => handleSelect('apps')} opacity={selected === 'apps' ? 1 : 0.4} /> */}
       <Menu
         theme={theme}
         src={settings}

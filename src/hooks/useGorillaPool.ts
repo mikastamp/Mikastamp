@@ -1,7 +1,7 @@
 import axios from 'axios';
 import init, { ChainParams, P2PKHAddress, PrivateKey, Transaction, TxOut } from 'bsv-wasm-web';
 import { TaggedDerivationResponse } from '../pages/requests/GenerateTaggedKeysRequest';
-import { GP_BASE_URL, GP_TESTNET_BASE_URL, JUNGLE_BUS_URL } from '../utils/constants';
+import { GP_BASE_URL, GP_TESTNET_BASE_URL } from '../utils/constants';
 import { decryptUsingPrivKey } from '../utils/crypto';
 import { chunkedStringArray } from '../utils/format';
 import { DerivationTag, getTaggedDerivationKeys, Keys } from '../utils/keys';
@@ -231,7 +231,7 @@ export const useGorillaPool = () => {
           txids.forEach((txid, i) => {
             spentTxids.set(chunk[i], txid);
           });
-        } catch (error) {}
+        } catch (error) { }
       }
       return spentTxids;
     } catch (error) {
@@ -242,7 +242,7 @@ export const useGorillaPool = () => {
 
   const getOrdContentByOriginOutpoint = async (originOutpoint: string) => {
     try {
-      const res = await axios.get(`${getOrdinalsBaseUrl()}/content/${originOutpoint}?fuzzy=false`, {
+      const res = await axios.get(`https://ordinals.gorillapool.io/content/${originOutpoint}?fuzzy=false`, {
         responseType: 'arraybuffer',
       });
       return Buffer.from(res.data);
@@ -284,7 +284,7 @@ export const useGorillaPool = () => {
   const getTxOut = async (txid: string, vout: number) => {
     try {
       await init();
-      const { data } = await axios.get(`${JUNGLE_BUS_URL}/v1/txo/get/${txid}_${vout}`, { responseType: 'arraybuffer' });
+      const { data } = await axios.get(`${GP_BASE_URL}/v1/txo/get/${txid}_${vout}`, { responseType: 'arraybuffer' });
       return TxOut.from_hex(Buffer.from(data).toString('hex'));
     } catch (error) {
       console.log(error);

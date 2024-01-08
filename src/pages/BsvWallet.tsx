@@ -82,12 +82,12 @@ const Minor = styled.span<ColorThemeProps>`
   font-size: 1rem;
   color: ${({ theme }) => theme.white + '80'};
 `;
-
+{ /*
 const Icon = styled.img<{ size?: string }>`
   width: ${(props) => props.size ?? '1.5rem'};
   height: ${(props) => props.size ?? '1.5rem'};
   margin: 0 0.5rem 0 0;
-`;
+`; */}
 
 const InputAmountWrapper = styled.div`
   display: flex;
@@ -278,10 +278,10 @@ export const BsvWallet = (props: BsvWalletProps) => {
           updateBsvBalance(true);
         }}
       />
-      <Icon size={'2.5rem'} src={bsvCoin} />
+      {/* <Icon size={'2.5rem'} src={bsvCoin} />
       <HeaderText style={{ marginTop: '1rem' }} theme={theme}>
         BSV Address
-      </HeaderText>
+      </HeaderText> */}
       <Text style={{ marginBottom: '1.25rem', fontSize: '1rem', fontWeight: 700, color: theme.errorRed }}>
         Do not send 1Sat Ordinals or BSV20 to this address!
       </Text>
@@ -292,7 +292,7 @@ export const BsvWallet = (props: BsvWalletProps) => {
     </ReceiveContent>
   );
 
-  const main = (
+  {/* const main = (
     <MainContent>
       <ProfileImageContainer>
         <ProfileImage
@@ -316,6 +316,7 @@ export const BsvWallet = (props: BsvWalletProps) => {
       </ButtonContainer>
     </MainContent>
   );
+  */}
 
   const send = (
     <>
@@ -370,7 +371,7 @@ export const BsvWallet = (props: BsvWalletProps) => {
                 }
               }}
             />
-            <Icon
+            {/* <Icon
               src={switchAsset}
               size="1rem"
               style={{
@@ -379,7 +380,7 @@ export const BsvWallet = (props: BsvWalletProps) => {
                 cursor: 'pointer',
               }}
               onClick={toggleAmountType}
-            />
+            /> */}
           </InputAmountWrapper>
           <Show when={isPasswordRequired}>
             <Input
@@ -410,10 +411,10 @@ export const BsvWallet = (props: BsvWalletProps) => {
       <Show when={isProcessing && pageState === 'main'}>
         <PageLoader theme={theme} message="Loading wallet..." />
       </Show>
-      <Show when={isProcessing && pageState === 'send'}>
+      {/* <Show when={isProcessing && pageState === 'send'}>
         <PageLoader theme={theme} message="Sending BSV..." />
-      </Show>
-      <Show when={!isProcessing && pageState === 'main'}>{main}</Show>
+      </Show> */}
+      {/*  <Show when={!isProcessing && pageState === 'main'}>{main}</Show> */}
       <Show when={!isProcessing && pageState === 'receive'}>{receive}</Show>
       <Show when={!isProcessing && pageState === 'send'}>{send}</Show>
     </>

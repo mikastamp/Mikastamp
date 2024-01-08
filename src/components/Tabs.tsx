@@ -19,7 +19,7 @@ const TabContent = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: calc(98%);
+  height: calc(95%);
 `;
 
 const TabsWrapper = styled.div`
@@ -31,7 +31,7 @@ const TabsWrapper = styled.div`
 
 const TabButton = styled.button<ColorThemeProps & { selected: boolean }>`
   flex: 1;
-  height: 3rem;
+  height: 6rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -69,7 +69,7 @@ const Content = styled.div`
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: calc(100% - 3.75rem - 2.75rem);
+  height: calc(100% - 3.75rem - 3.75rem);
 `;
 
 export type TabsProps = PropsWithChildren<{

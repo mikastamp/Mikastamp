@@ -79,7 +79,7 @@ export const SpeedBump = (props: SpeedBumpProps) => {
       <Show when={withPassword}>
         <Input
           theme={theme}
-          placeholder="Enter Wallet Password"
+          placeholder="Enter Gallery Password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}

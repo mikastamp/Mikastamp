@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import styled from 'styled-components';
 import { WhitelistedApp } from '../App';
 import x from '../assets/x.svg';
@@ -19,24 +19,39 @@ import { useSocialProfile } from '../hooks/useSocialProfile';
 import { useTheme } from '../hooks/useTheme';
 import { useWalletLockState } from '../hooks/useWalletLockState';
 import { useWeb3Context } from '../hooks/useWeb3Context';
-import { ColorThemeProps } from '../theme';
+import { ColorThemeProps, transferCreditTextStyle } from '../theme';
 import { SNACKBAR_TIMEOUT } from '../utils/constants';
 import { NetWork } from '../utils/network';
 import { storage } from '../utils/storage';
+import { useBsv } from '../hooks/useBsv';
+import { FiCopy } from 'react-icons/fi';
+import { copyToClipboard } from '../utils/clipboard'; // Create a utility function for copying to the clipboard
+
+const BsvInfoContainer = styled.div<ColorThemeProps>`
+  display: flex;
+  flex-direction: column;  // Updated to column layout
+  align-items: center;
+  justify-content: space-between;
+  background-color: ${({ theme }) => theme.darkAccent};
+  border-radius: 0.5rem;
+  padding: 0.5rem;
+  margin: 0.25rem;
+  width: 80%;
+`;
 
 const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: calc(75%);
+  height: calc(70%);
   overflow-y: auto;
   overflow-x: hidden;
 `;
 
 const HeaderWrapper = styled.div`
   position: absolute;
-  top: 1rem;
+  top: 3rem;
 `;
 
 const ConnectedAppRow = styled.div<ColorThemeProps>`
@@ -50,7 +65,7 @@ const ConnectedAppRow = styled.div<ColorThemeProps>`
   width: 80%;
 `;
 
-const SettingsText = styled(Text)<ColorThemeProps>`
+const SettingsText = styled(Text) <ColorThemeProps>`
   color: ${({ theme }) => theme.white};
   margin: 0;
   font-weight: 600;
@@ -108,11 +123,14 @@ type SettingsPage =
   | 'connected-apps'
   | 'social-profile'
   | 'export-keys-options'
+  | 'transfer-credits'
   | 'export-keys-qr'
   | 'preferences';
 type DecisionType = 'sign-out' | 'export-keys' | 'export-keys-qr-code';
 
 export const Settings = () => {
+  const [copied, setCopied] = useState(false);
+  const copyButtonRef = useRef(null);
   const { theme } = useTheme();
   const { setSelected } = useBottomMenu();
   const { lockWallet } = useWalletLockState();
@@ -134,9 +152,18 @@ export const Settings = () => {
   const { socialProfile, storeSocialProfile } = useSocialProfile();
   const [exportKeysQrData, setExportKeysAsQrData] = useState('');
   const [shouldVisibleExportedKeys, setShouldVisibleExportedKeys] = useState(false);
-
+  const { bsvBalance, bsvAddress } = useBsv();  // Retrieve bsvBalance and bsvAddress from the useBsv hook
   const [enteredSocialDisplayName, setEnteredSocialDisplayName] = useState(socialProfile.displayName);
   const [enteredSocialAvatar, setEnteredSocialAvatar] = useState(socialProfile?.avatar);
+
+  const handleCopyClick = () => {
+    if (bsvAddress) {
+      copyToClipboard(bsvAddress);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
 
   useEffect(() => {
     const getWhitelist = (): Promise<string[]> => {
@@ -216,7 +243,7 @@ export const Settings = () => {
     const url = URL.createObjectURL(blob);
     const tempLink = document.createElement('a');
     tempLink.href = url;
-    tempLink.setAttribute('download', 'panda_wallet_keys.json');
+    tempLink.setAttribute('download', 'mikastamp_collection_keys.json');
     document.body.appendChild(tempLink);
     tempLink.click();
     document.body.removeChild(tempLink);
@@ -288,23 +315,40 @@ export const Settings = () => {
 
   const main = (
     <>
-      <SettingsRow
+
+      <BsvInfoContainer theme={theme}>
+        <SettingsText style={transferCreditTextStyle} theme={theme}>Transfer credit</SettingsText>
+        <SettingsText theme={theme}>{bsvBalance.toLocaleString('BSV', { maximumFractionDigits: 0 })} Units</SettingsText>
+        <div style={{ display: 'flex', alignItems: 'center', margin: '5px', backgroundColor: '#8b734c', borderRadius: '3px', padding: '5px' }}>
+          <SettingsText theme={theme}>Credit Address: {bsvAddress}</SettingsText>
+          {copied && <span style={{ marginLeft: '0.5rem', color: '#fff' }}>Copied!</span>}
+          <button
+            ref={copyButtonRef}
+            onClick={() => handleCopyClick()}
+            disabled={copied}
+            style={{ marginLeft: '0.5rem', cursor: 'pointer' }}
+          >
+            <FiCopy />
+          </button>
+        </div>
+      </BsvInfoContainer>
+      {/*  <SettingsRow
         name="Connected Apps"
         description="Manage the apps you are connected to"
         onClick={() => setPage('connected-apps')}
         jsxElement={<ForwardButton />}
-      />
+      />*/}
       <SettingsRow
         name="Preferences"
-        description="Manage your wallet preferences"
+        description="Manage your gallery preferences"
         onClick={() => setPage('preferences')}
         jsxElement={<ForwardButton />}
       />
-      <SettingsRow
+      {/*  <SettingsRow
         name="Testnet Mode"
         description="Applies to balances and app connections"
         jsxElement={<ToggleSwitch theme={theme} on={network === NetWork.Testnet} onChange={handleNetworkChange} />}
-      />
+  /> */}
       <SettingsRow
         name="Export Keys"
         description="Download keys or export as QR code"
@@ -312,8 +356,8 @@ export const Settings = () => {
         jsxElement={<ForwardButton />}
       />
 
-      <SettingsRow name="Lock Wallet" description="Immediately lock the wallet" onClick={lockWallet} />
-      <SettingsRow name="Sign Out" description="Sign out of Panda Wallet completely" onClick={handleSignOutIntent} />
+      {/* <SettingsRow name="Lock Wallet" description="Immediately lock the wallet" onClick={lockWallet} /> */}
+      <SettingsRow name="Sign Out" description="Sign out of my gallery completely" onClick={handleSignOutIntent} />
     </>
   );
 
@@ -368,12 +412,12 @@ export const Settings = () => {
   const preferencesPage = (
     <>
       <BackButton onClick={() => setPage('main')} />
-      <SettingsRow
+      {/* <SettingsRow
         name="Social Profile"
         description="Set your display name and avatar"
         onClick={() => setPage('social-profile')}
         jsxElement={<ForwardButton />}
-      />
+  /> */}
       <SettingsRow
         name="Require Password"
         description="Require a password for sending assets?"
@@ -385,6 +429,7 @@ export const Settings = () => {
           />
         }
       />
+      {/*
       <SettingsRow
         name="Auto Approve Limit"
         description="Transactions at or below this BSV amount will be auto approved."
@@ -398,7 +443,7 @@ export const Settings = () => {
             style={{ width: '5rem', margin: 0 }}
           />
         }
-      />
+      /> */}
     </>
   );
 
@@ -464,7 +509,7 @@ export const Settings = () => {
         <Show when={page === 'main'}>{main}</Show>
         <Show when={page === 'connected-apps'}>{connectedAppsPage}</Show>
         <Show when={page === 'preferences'}>{preferencesPage}</Show>
-        <Show when={page === 'social-profile'}>{socialProfilePage}</Show>
+        {/* <Show when={page === 'social-profile'}>{socialProfilePage}</Show> */}
         <Show when={page === 'export-keys-options'}>{exportKeyOptionsPage}</Show>
         <Show when={page === 'export-keys-qr'}>{exportKeysAsQrCodePage}</Show>
       </Content>

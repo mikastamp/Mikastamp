@@ -1,30 +1,31 @@
 {
-  "short_name": "Panda Wallet",
-  "name": "Panda Wallet",
-  "description": "A non-custodial and open-source wallet for BSV and 1Sat Ordinals",
-  "start_url": "./index.html",
+  "theme_color": "#343541",
+  "background_color": "#343541",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#1B6B93",
+  "scope": "/",
+  "start_url": "./index.html",
+  "name": "Mikastamp",
+  "short_name": "Mikastamp",
+  "description": "A Gallery for your Mikastamps.",
   "icons": [
     {
-      "src": "icons/icon16.png",
-      "sizes": "16x16",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon48.png",
-      "sizes": "48x48",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon192.png",
+      "src": "icons/icon-192x192.png",
       "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/icon-512x512.png",
+      "sizes": "512x512",
       "type": "image/png"
     }
   ]

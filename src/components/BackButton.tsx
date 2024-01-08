@@ -5,9 +5,14 @@ export const Image = styled.img`
   width: 1.25rem;
   height: 1.25rem;
   position: absolute;
-  top: 1.5rem;
+  top: 2.5rem;
   left: 1.5rem;
   cursor: pointer;
+  border: solid 1px;
+  border-color: #111;
+  border-radius: 15px;
+  padding: 0.3rem;
+  background-color: #8b734c;
 `;
 
 export type BackButtonProps = {

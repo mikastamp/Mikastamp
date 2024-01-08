@@ -1,69 +1,50 @@
-import { useState, useRef, useEffect } from 'react';
-import styled from 'styled-components';
-import panda from '../assets/panda.svg';
+import React, { useEffect, useRef, useState } from 'react';
+import styled, { css } from 'styled-components';
+import getRandomImage from '..//randomRenderImage';
 
-const PandaImg = styled.img<{
-  $rotation: { x: number; y: number };
-}>`
-  transition: transform 0.1s;
-  width: ${(props) => props.width ?? '6.25rem'};
-  height: ${(props) => props.width ?? '6.25rem'};
-`;
-
-interface Rotation {
-  x: number;
-  y: number;
+interface PandaImgProps {
+  width?: string;
+  glow?: boolean | string;
 }
 
+const StyledImg = styled.img<PandaImgProps>`
+  width: ${(props) => props.width ?? '6.25rem'};
+  height: ${(props) => props.width ?? '6.25rem'};
+  
+  position: relative;
+  overflow: hidden;
+
+  ${(props) =>
+    props.glow &&
+    css`
+      box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.7);
+    `}
+`;
+
 export type PandaHeadProps = {
-  /** The size of the head */
   width?: string;
-  /** Whether or not the head should follow the mouse */
-  animated?: boolean;
+  glow?: boolean;
 };
 
 export const PandaHead = (props: PandaHeadProps) => {
-  const { animated, width } = props;
-  const [rotation, setRotation] = useState<Rotation>({ x: 0, y: 0 });
+  const { width, glow } = props;
   const imgRef = useRef<HTMLImageElement>(null);
+  const [randomImage, setRandomImage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (!animated) return;
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!imgRef.current) return;
-
-      const { left, top, width, height } = imgRef.current.getBoundingClientRect();
-      const centerX = left + width / 2;
-      const centerY = top + height / 2;
-
-      // Calculate angle
-      const deltaX = e.clientX - centerX;
-      const deltaY = e.clientY - centerY;
-      const angleInRadians = Math.atan2(deltaY, deltaX);
-
-      setRotation({
-        x: Math.sin(angleInRadians) * 40,
-        y: -Math.cos(angleInRadians) * 40,
-      });
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove);
-    };
-  }, [animated]);
+    const image = getRandomImage();
+    setRandomImage(image);
+  }, []);
 
   return (
-    <PandaImg
+    <StyledImg
       ref={imgRef}
-      src={panda}
+      src={randomImage?.toString()}
       width={width}
       alt="Panda Head"
-      $rotation={rotation}
-      style={{
-        transform: `rotateX(${rotation.x}deg) rotateY(${rotation.y}deg)`,
-      }}
+      glow={glow ? 'true' : 'false'}
+      style={{ width: '6rem', height: 'auto', borderRadius: '5px' }}
+      as="img" // Specify the HTML element to render
     />
   );
 };

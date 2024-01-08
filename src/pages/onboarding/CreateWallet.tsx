@@ -107,8 +107,8 @@ export const CreateWallet = () => {
       <BackButton onClick={() => navigate('/')} />
       <Content>
         <HeaderText theme={theme}>Create a password</HeaderText>
-        <Text style={{ marginBottom: '1rem' }} theme={theme}>
-          This is used to unlock your wallet.
+        <Text style={{ marginBottom: '1rem', fontSize: '1rem' }} theme={theme}>
+          This is used to unlock your collection.
         </Text>
         <FormContainer onSubmit={handleKeyGeneration}>
           <Input
@@ -125,10 +125,10 @@ export const CreateWallet = () => {
             value={passwordConfirm}
             onChange={(e) => setPasswordConfirm(e.target.value)}
           />
-          <Text theme={theme} style={{ margin: '1rem 0 1rem' }}>
+          <Text theme={theme} style={{ margin: '1rem 0 1rem', fontSize: '1rem' }}>
             Make sure you are in a safe place and no one is watching.
           </Text>
-          <Button theme={theme} type="primary" label="Generate Seed" isSubmit />
+          <Button theme={theme} type="primary" label="Generate gallery address" isSubmit />
         </FormContainer>
       </Content>
     </>
@@ -140,7 +140,7 @@ export const CreateWallet = () => {
       <Content>
         <HeaderText theme={theme}>Your recovery phrase</HeaderText>
         <Text theme={theme} style={{ marginBottom: '1rem' }}>
-          Safely write down and store your seed phrase in a safe place.
+          Safely write down and store your recovery phrase in a safe place.
         </Text>
         <SeedContainer>
           <Column>
@@ -177,7 +177,7 @@ export const CreateWallet = () => {
         <PandaHead />
         <HeaderText theme={theme}>Success!</HeaderText>
         <Text theme={theme} style={{ marginBottom: '1rem' }}>
-          Panda Wallet is ready to go.
+          You are ready to collect art.
         </Text>
         <Button
           theme={theme}

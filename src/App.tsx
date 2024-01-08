@@ -40,6 +40,8 @@ import { ColorThemeProps } from './theme';
 import { DerivationTag } from './utils/keys';
 import { storage } from './utils/storage';
 
+
+
 export type ThirdPartyAppRequestData = {
   appName: string;
   appIcon: string;
@@ -56,11 +58,12 @@ const MainContainer = styled.div<{ $isMobile?: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.$isMobile ? '100vw' : '22.5rem')};
-  height: ${(props) => (props.$isMobile ? '100vh' : '33.75rem')};
+  width: ${(props) => (props.$isMobile ? '100vw' : '100vw')};
+  height: ${(props) => (props.$isMobile ? '100vh' : '100vh')};
   position: relative;
-  padding: 0;
   margin: auto;
+  background-color: #161A30;
+  
 `;
 
 const Container = styled.div<ColorThemeProps>`
@@ -69,8 +72,15 @@ const Container = styled.div<ColorThemeProps>`
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: ${({ theme }) => theme.mainBackground};
+  background: ${({ theme }) => theme.black};
+  background-size: contain;
+  background-position: center;
+  background: no-repeat; 
   position: relative;
+  
+  
+   
+ 
 `;
 export const App = () => {
   const { isLocked } = useWalletLockState();
@@ -181,6 +191,7 @@ export const App = () => {
       },
     );
   }, [isLocked, menuContext]);
+
 
   return (
     <MainContainer $isMobile={isMobile}>

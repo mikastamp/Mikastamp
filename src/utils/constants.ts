@@ -3,7 +3,6 @@ export const WOC_BASE_URL = 'https://api.whatsonchain.com/v1/bsv/main';
 export const WOC_TESTNET_BASE_URL = 'https://api.whatsonchain.com/v1/bsv/test';
 
 export const GP_BASE_URL = 'https://ordinals.gorillapool.io';
-export const JUNGLE_BUS_URL = 'https://junglebus.gorillapool.io';
 
 export const GP_TESTNET_BASE_URL = 'https://testnet.ordinals.gorillapool.io';
 export const GORILLA_POOL_ARC_URL = 'https://arc.gorillapool.io/v1';
@@ -48,7 +47,7 @@ export const featuredApps = [
   {
     icon: 'https://pbs.twimg.com/profile_images/1469020626912354306/4WA3cIs3_400x400.jpg',
     name: 'Take It NFT',
-    link: 'https://www.takeitnft.com/marketplace/global',
+    link: 'https://www.takeitm/marketplace/global',
   },
   {
     icon: 'https://taleofshua.com/assets/shua_swd_512.png',

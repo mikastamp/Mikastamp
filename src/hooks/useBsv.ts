@@ -75,7 +75,7 @@ export type MimeTypes =
   | 'application/x-tar'
   | 'application/x-bzip2';
 
-export type MAP = { app: string; type: string; [prop: string]: string };
+export type MAP = { app: string; type: string;[prop: string]: string };
 
 export type RawInscription = {
   base64Data: string;
@@ -316,7 +316,9 @@ export const useBsv = () => {
 
   const updateBsvBalance = async (pullFresh?: boolean) => {
     const total = await getBsvBalance(bsvAddress, pullFresh);
-    setBsvBalance(total ?? 0);
+    // Convert BSV balance to satoshis
+    const balanceInSatoshis = total ? total * BSV_DECIMAL_CONVERSION : 0;
+    setBsvBalance(balanceInSatoshis);
   };
 
   const rate = async () => {

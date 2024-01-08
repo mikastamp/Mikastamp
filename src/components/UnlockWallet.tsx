@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useKeys } from '../hooks/useKeys';
 import { useTheme } from '../hooks/useTheme';
@@ -19,10 +19,10 @@ const Container = styled.div<ColorThemeProps & { $isMobile: boolean }>`
   text-align: center;
   width: ${(props) => (props.$isMobile ? '100vw' : '22.5rem')};
   height: ${(props) => (props.$isMobile ? '100vh' : '33.75rem')};
-  margin: 0;
   background-color: ${({ theme }) => theme.darkAccent};
   color: ${({ theme }) => theme.white};
   z-index: 100;
+  border-radius: 10px;
 `;
 
 export type UnlockWalletProps = {
@@ -38,31 +38,46 @@ export const UnlockWallet = (props: UnlockWalletProps) => {
   const { isMobile } = useViewport();
 
   const { verifyPassword } = useKeys();
+  const [timeoutId, setTimeoutId] = useState<NodeJS.Timeout | null>(null);
 
   const handleUnlock = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsProcessing(true);
-    await sleep(25);
-    const isVerified = await verifyPassword(password);
-    if (isVerified) {
-      setVerificationFailed(false);
-      const timestamp = Date.now();
-      storage.set({ lastActiveTime: timestamp });
-      onUnlock();
-    } else {
-      setVerificationFailed(true);
-      setPassword('');
-      setTimeout(() => {
-        setVerificationFailed(false);
-        setIsProcessing(false);
-      }, 900);
+
+    if (timeoutId) {
+      clearTimeout(timeoutId);
     }
+
+    const newTimeoutId = setTimeout(async () => {
+      const isVerified = await verifyPassword(password);
+      if (isVerified) {
+        setVerificationFailed(false);
+        const timestamp = Date.now();
+        storage.set({ lastActiveTime: timestamp });
+        onUnlock();
+      } else {
+        setVerificationFailed(true);
+        setPassword('');
+        setIsProcessing(false);
+      }
+    }, 25);
+
+    setTimeoutId(newTimeoutId);
   };
+
+  useEffect(() => {
+    // Clear the timeout on component unmount
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+      }
+    };
+  }, [timeoutId]);
 
   return (
     <Container $isMobile={isMobile} theme={theme}>
-      <PandaHead animated width="4rem" />
-      <HeaderText theme={theme}>Unlock Wallet</HeaderText>
+      <PandaHead width="6rem" />
+      <HeaderText theme={theme} style={{ marginTop: '2rem', fontSize: '1.5rem' }}>Unlock Gallery</HeaderText>
       <FormContainer onSubmit={handleUnlock}>
         <Input
           theme={theme}

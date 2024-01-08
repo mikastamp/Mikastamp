@@ -1,12 +1,15 @@
 {
   "version": "2.11.2",
   "manifest_version": 3,
-  "name": "Panda Wallet",
-  "description": "A non-custodial and open-source wallet for BSV and 1Sat Ordinals",
-  "permissions": ["storage", "unlimitedStorage"],
+  "name": "Mikastamp",
+  "description": "A non-custodial Gallery for your Mikastamps",
+  "permissions": [
+    "storage",
+    "unlimitedStorage"
+  ],
   "action": {
     "default_popup": "index.html",
-    "default_title": "Panda Wallet"
+    "default_title": "Mikastamp"
   },
   "background": {
     "service_worker": "background.js",
@@ -14,14 +17,22 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
-      "js": ["content.js"]
+      "matches": [
+        "<all_urls>"
+      ],
+      "js": [
+        "content.js"
+      ]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["inject.js"],
-      "matches": ["<all_urls>"]
+      "resources": [
+        "inject.js"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "content_security_policy": {

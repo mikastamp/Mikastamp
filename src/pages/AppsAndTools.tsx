@@ -97,7 +97,7 @@ const AppIcon = styled.img`
   border-radius: 0.5rem;
 `;
 
-const DiscoverAppsText = styled(Text)<ColorThemeProps>`
+const DiscoverAppsText = styled(Text) <ColorThemeProps>`
   color: ${({ theme }) => theme.white};
   margin: 0;
   font-weight: 600;
@@ -118,7 +118,7 @@ const LockDetailsContainer = styled.div`
   width: 80%;
 `;
 
-const LockDetailsText = styled(Text)<ColorThemeProps>`
+const LockDetailsText = styled(Text) <ColorThemeProps>`
   margin: 0;
   color: ${(props) => props.theme.white};
 `;
@@ -245,34 +245,36 @@ export const AppsAndTools = () => {
     setTimeout(getLockData, 2550);
   };
 
-  const main = (
-    <>
-      <AppsRow
-        name="Make a Difference 🙏"
-        description="Fund Panda Wallet's open source developers"
-        onClick={() => setPage('sponsor')}
-        jsxElement={<ForwardButton />}
-      />
-      <AppsRow
-        name="Unlock Coins 🔐"
-        description="Unlock the coins you've locked on Hodlocker"
-        onClick={() => setPage('unlock')}
-        jsxElement={<ForwardButton />}
-      />
-      <AppsRow
-        name="Discover Apps 🤩"
-        description="Meet the apps using Panda Wallet"
-        onClick={() => setPage('discover-apps')}
-        jsxElement={<ForwardButton />}
-      />
-      <AppsRow
-        name="Integrate Panda Wallet 🛠"
-        description="The tools you need to integrate Panda Wallet"
-        onClick={() => window.open(PROVIDER_DOCS_URL, '_blank')}
-        jsxElement={<ExternalLinkIcon src={externalLink} />}
-      />
-    </>
-  );
+  /* const main = (
+     <>
+       <AppsRow
+         name="Make a Difference 🙏"
+         description="Fund Panda Wallet's open source developers"
+         onClick={() => setPage('sponsor')}
+         jsxElement={<ForwardButton />}
+       />
+       <AppsRow
+         name="Unlock Coins 🔐"
+         description="Unlock the coins you've locked on Hodlocker"
+         onClick={() => setPage('unlock')}
+         jsxElement={<ForwardButton />}
+       />
+       <AppsRow
+         name="Discover Apps 🤩"
+         description="Meet the apps using Panda Wallet"
+         onClick={() => setPage('discover-apps')}
+         jsxElement={<ForwardButton />}
+       />
+       <AppsRow
+         name="Integrate Panda Wallet 🛠"
+         description="The tools you need to integrate Panda Wallet"
+         onClick={() => window.open(PROVIDER_DOCS_URL, '_blank')}
+         jsxElement={<ExternalLinkIcon src={externalLink} />}
+       />
+     </>
+   ); 
+   
+   */
 
   const headerLockDetailsRow = (
     <LockDetailsContainer>
@@ -307,7 +309,7 @@ export const AppsAndTools = () => {
       <Show when={isPasswordRequired}>
         <Input
           theme={theme}
-          placeholder="Enter Wallet Password"
+          placeholder="Enter gallery Password"
           type="password"
           value={passwordConfirm}
           onChange={(e) => setPasswordConfirm(e.target.value)}
@@ -469,7 +471,8 @@ export const AppsAndTools = () => {
       <Show when={isProcessing && page === 'unlock'}>
         <PageLoader theme={theme} message={isUnlocking ? 'Unlocking coins...' : 'Gathering info...'} />
       </Show>
-      <Show when={page === 'main'}>{main}</Show>
+
+      {/* <Show when={page === 'main'}>{main}</Show> */}
       <Show when={page === 'sponsor' && !didSubmit}>{sponsorPage}</Show>
       <Show when={page === 'sponsor-thanks'}>{thankYouSponsorPage}</Show>
       <Show when={!isProcessing && page === 'unlock'}>{unlockPage}</Show>

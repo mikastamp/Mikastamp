@@ -1,9 +1,9 @@
 import validate from 'bitcoin-address-validation';
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import oneSatLogo from '../assets/1sat-logo.svg';
-import { BackButton } from '../components/BackButton';
+import oneSatLogo from '../assets/mika-1sat.svg';
 import { BSV20Item } from '../components/BSV20Item';
+import { BackButton } from '../components/BackButton';
 import { Button } from '../components/Button';
 import { Input } from '../components/Input';
 import { Ordinal } from '../components/Ordinal';
@@ -40,7 +40,7 @@ const OrdinalsList = styled.div`
   justify-content: center;
   flex-wrap: wrap;
   overflow-y: auto;
-  width: 100%;
+  width: 100%; /* Change this to a percentage or other unit as needed */
   margin-top: 0.5rem;
 `;
 
@@ -59,7 +59,7 @@ const NoInscriptionWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 8rem;
+  margin-top: 18rem;
   width: 100%;
 `;
 
@@ -82,6 +82,12 @@ const Icon = styled.img<{ size?: string }>`
 const ContentWrapper = styled.div`
   margin-top: -2rem;
   width: 100%;
+  padding: 1rem; /* Adjust padding as needed */
+
+  @media (max-width: 768px) {
+    /* Adjust padding for smaller screens */
+    padding: 0.5rem;
+  }
 `;
 
 const TransferBSV20Header = styled(HeaderText)`
@@ -89,6 +95,12 @@ const TransferBSV20Header = styled(HeaderText)`
   max-width: 16rem;
   white-space: nowrap;
   text-overflow: ellipsis;
+`;
+
+const ArtworkTitle = styled.span`
+  font-weight: bold;
+  color: #3a436e; 
+  /* Add any other styles as needed */
 `;
 
 export const OrdButtonContainer = styled(ButtonContainer)`
@@ -224,7 +236,7 @@ export const OrdWallet = () => {
 
     await sleep(25);
     if (!validate(receiveAddress)) {
-      addSnackbar('You must enter a valid 1Sat Ordinal address.', 'info');
+      addSnackbar('You must enter a valid 1Sat artwork address.', 'info');
       setIsProcessing(false);
       return;
     }
@@ -311,7 +323,7 @@ export const OrdWallet = () => {
 
     await sleep(25);
     if (!validate(receiveAddress)) {
-      addSnackbar('You must enter a valid 1Sat Ordinal address.', 'info');
+      addSnackbar('You must enter a valid 1Sat artwork address.', 'info');
       setIsProcessing(false);
       return;
     }
@@ -368,13 +380,13 @@ export const OrdWallet = () => {
         disabled={ordinals.data.length === 0 || !selectedOrdinal}
         onClick={async () => {
           if (!selectedOrdinal?.outpoint.toString()) {
-            addSnackbar('You must select an ordinal to transfer!', 'info');
+            addSnackbar('You must select an artwork to transfer!', 'info');
             return;
           }
           setPageState('transfer');
         }}
       />
-      <Button
+      {/* <Button
         theme={theme}
         type="primary"
         label="List"
@@ -386,7 +398,7 @@ export const OrdWallet = () => {
           }
           setPageState('list');
         }}
-      />
+      /> */}
     </>
   );
 
@@ -512,10 +524,10 @@ export const OrdWallet = () => {
       />
       <Icon size={'2.5rem'} src={oneSatLogo} />
       <HeaderText style={{ marginTop: '1rem', fontSize: '2rem' }} theme={theme}>
-        Ordinals & BSV20
+        Artworks
       </HeaderText>
       <Text style={{ marginBottom: '1.25rem', fontSize: '1rem', fontWeight: 700, color: theme.errorRed }}>
-        Do not send BSV to this address!
+        Only send art to this address!
       </Text>
       <QrCode address={ordAddress} onClick={handleCopyToClipboard} />
       <Text theme={theme} style={{ marginTop: '1.5rem', cursor: 'pointer' }} onClick={handleCopyToClipboard}>
@@ -533,11 +545,20 @@ export const OrdWallet = () => {
         }}
       />
       <ConfirmContent>
-        <HeaderText style={{ fontSize: '1.35rem' }} theme={theme}>{`${
-          selectedOrdinal?.origin?.data?.map?.name ??
-          selectedOrdinal?.origin?.data?.map?.subTypeData?.name ??
-          'Transfer Ordinal'
-        }`}</HeaderText>
+        <HeaderText style={{ fontSize: '1.35rem', color: '#698bd0' }} theme={theme}>
+          {selectedOrdinal?.origin?.data?.map?.name ? (
+            <>
+              <ArtworkTitle>Artwork Title:</ArtworkTitle> {selectedOrdinal.origin.data.map.name}
+            </>
+          ) : selectedOrdinal?.origin?.data?.map?.subTypeData?.name ? (
+            <>
+              <ArtworkTitle></ArtworkTitle> {selectedOrdinal.origin.data.map.subTypeData.name}
+            </>
+          ) : (
+            'No name'
+          )}
+        </HeaderText>
+
         <Text style={{ margin: 0 }} theme={theme}>{`#${selectedOrdinal?.origin?.num}`}</Text>
         <Ordinal
           theme={theme}
@@ -623,7 +644,7 @@ export const OrdWallet = () => {
                 fontSize: '1rem',
               }}
             >
-              You have no 1Sat Ordinals. NGMI 😬
+              You have no artworks.
             </Text>
           </NoInscriptionWrapper>
         }
@@ -657,7 +678,7 @@ export const OrdWallet = () => {
             label="Cancel Listing"
             onClick={async () => {
               if (!selectedOrdinal?.outpoint.toString()) {
-                addSnackbar('You must select an ordinal to transfer!', 'info');
+                addSnackbar('You must select an artwork to transfer!', 'info');
                 return;
               }
               setPageState('cancel');
@@ -670,12 +691,12 @@ export const OrdWallet = () => {
 
   const main = (
     <Tabs tabIndex={tabIndex} selectTab={selectTab} theme={theme}>
-      <Tabs.Panel theme={theme} label="NFT">
+      <Tabs.Panel theme={theme} label=" My Collection">
         {nft}
       </Tabs.Panel>
-      <Tabs.Panel theme={theme} label="Tokens">
+      {/*  <Tabs.Panel theme={theme} label="MSP">
         {ft}
-      </Tabs.Panel>
+  </Tabs.Panel> */}
     </Tabs>
   );
 
@@ -772,12 +793,12 @@ export const OrdWallet = () => {
           resetSendState();
         }}
       />
+
       <ConfirmContent>
-        <HeaderText style={{ fontSize: '1.35rem' }} theme={theme}>{`List ${
-          selectedOrdinal?.origin?.data?.map?.name ??
+        <HeaderText style={{ fontSize: '1.35rem' }} theme={theme}>{`List ${selectedOrdinal?.origin?.data?.map?.name ??
           selectedOrdinal?.origin?.data?.map?.subTypeData?.name ??
           'List Ordinal'
-        }`}</HeaderText>
+          }`}</HeaderText>
         <Text style={{ margin: 0 }} theme={theme}>{`#${selectedOrdinal?.origin?.num}`}</Text>
         <Ordinal
           theme={theme}
@@ -825,10 +846,10 @@ export const OrdWallet = () => {
   return (
     <>
       <Show when={isProcessing && pageState === 'main'}>
-        <PageLoader theme={theme} message="Loading ordinals..." />
+        <PageLoader theme={theme} message="Loading artworks..." />
       </Show>
       <Show when={isProcessing && pageState === 'transfer'}>
-        <PageLoader theme={theme} message="Transferring ordinal..." />
+        <PageLoader theme={theme} message="Transferring artwork..." />
       </Show>
       <Show when={isProcessing && pageState === 'list'}>
         <PageLoader theme={theme} message="Listing ordinal..." />

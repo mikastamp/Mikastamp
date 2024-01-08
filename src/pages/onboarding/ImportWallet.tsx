@@ -79,7 +79,7 @@ export const ImportWallet = () => {
       if (!identityPk) {
         setLoading(false);
         addSnackbar(
-          'IMPORTANT: Since you did not provide an identity key, Panda Wallet will generate one for you, MAKE SURE TO BACK UP YOUR NEW PANDA WALLET!',
+          'IMPORTANT: Since you did not provide an identity key, Mikastamp will generate one for you, MAKE SURE TO BACK UP YOUR NEW MIKASTAMP GALLERY!',
           'info',
           7000,
         );
@@ -180,9 +180,9 @@ export const ImportWallet = () => {
     <>
       <BackButton onClick={() => navigate('/')} />
       <Content>
-        <HeaderText theme={theme}>Import a WIF Wallet</HeaderText>
+        <HeaderText theme={theme}>Import a WIF gallery</HeaderText>
         <Text style={{ margin: '1rem' }} theme={theme}>
-          Input assets directly from your WIF private keys or import a 1Sat JSON Wallet.
+          Input assets directly from your WIF private keys or import a Mikastamp keys JSON .
         </Text>
         <FormContainer onSubmit={() => setStep(2)}>
           <Input
@@ -221,7 +221,7 @@ export const ImportWallet = () => {
           theme={theme}
           type="secondary"
           onClick={handleJsonUploadClick}
-          label="Upload 1Sat JSON"
+          label="Upload Mikastamp JSON"
           style={{ margin: 0 }}
         />
         <input
@@ -241,7 +241,7 @@ export const ImportWallet = () => {
         <PandaHead />
         <HeaderText theme={theme}>Success!</HeaderText>
         <Text theme={theme} style={{ marginBottom: '1rem' }}>
-          Your wallet has been imported.
+          Your collection has been imported.
         </Text>
         <Button
           theme={theme}
@@ -258,7 +258,7 @@ export const ImportWallet = () => {
   return (
     <>
       <Show when={loading}>
-        <PageLoader theme={theme} message="Importing Wallet..." />
+        <PageLoader theme={theme} message="Importing collection..." />
       </Show>
       <Show when={!loading && step === 1}>{enterWifsStep}</Show>
       <Show when={!loading && step === 2}>{passwordStep}</Show>
